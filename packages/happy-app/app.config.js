@@ -177,7 +177,7 @@ export default {
             ],
             ...(variant === 'personal' ? [[
                 "expo-build-properties",
-                { android: { ndk: { abiFilters: ["arm64-v8a"] } } }
+                { android: { buildArchs: ["arm64-v8a"] } }
             ]] : [])
         ],
         updates: {
