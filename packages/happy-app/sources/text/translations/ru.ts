@@ -159,6 +159,8 @@ export const ru: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'Отображать номера строк в различиях представлений инструментов',
         wrapLinesInDiffs: 'Перенос строк в различиях',
         wrapLinesInDiffsDescription: 'Переносить длинные строки вместо горизонтальной прокрутки в представлениях различий',
+        collapseEditDiffsByDefault: 'Сворачивать диффы редактирования по умолчанию',
+        collapseEditDiffsByDefaultDescription: 'Скрывать содержимое диффов Edit/Write/MultiEdit до нажатия на стрелку',
         diffStyle: 'Вид сравнения',
         diffStyleDescription: 'Показывать различия в одну колонку (unified) или рядом (split). Режим split доступен только на web.',
         diffStyleOptions: {

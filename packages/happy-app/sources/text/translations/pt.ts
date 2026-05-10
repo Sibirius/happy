@@ -172,6 +172,8 @@ export const pt: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'Exibir números de linha nos diffs das visualizações de ferramentas',
         wrapLinesInDiffs: 'Quebrar linhas nos diffs',
         wrapLinesInDiffsDescription: 'Quebrar linhas longas ao invés de rolagem horizontal nas visualizações de diffs',
+        collapseEditDiffsByDefault: 'Recolher diffs de edição por padrão',
+        collapseEditDiffsByDefaultDescription: 'Ocultar o conteúdo dos diffs Edit/Write/MultiEdit até tocar no chevron',
         diffStyle: 'Visualização do diff',
         diffStyleDescription: 'Mostrar diffs em uma única coluna (unified) ou lado a lado (split). A visualização split funciona apenas na web.',
         diffStyleOptions: {

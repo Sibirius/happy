@@ -174,6 +174,8 @@ export const ja: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'ツールビューの差分に行番号を表示',
         wrapLinesInDiffs: '差分で行を折り返し',
         wrapLinesInDiffsDescription: '差分表示で水平スクロールの代わりに長い行を折り返す',
+        collapseEditDiffsByDefault: '編集差分をデフォルトで折りたたむ',
+        collapseEditDiffsByDefaultDescription: 'シェブロンをタップするまで Edit/Write/MultiEdit の差分本文を非表示にする',
         diffStyle: '差分表示',
         diffStyleDescription: '差分を1列（unified）または横並び（split）で表示します。split 表示は Web 専用です。',
         diffStyleOptions: {

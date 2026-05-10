@@ -173,6 +173,8 @@ export const es: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'Mostrar números de línea en diferencias de vistas de herramientas',
         wrapLinesInDiffs: 'Ajustar líneas en diferencias',
         wrapLinesInDiffsDescription: 'Ajustar líneas largas en lugar de desplazamiento horizontal en vistas de diferencias',
+        collapseEditDiffsByDefault: 'Contraer diffs de edición por defecto',
+        collapseEditDiffsByDefaultDescription: 'Ocultar el contenido de los diffs Edit/Write/MultiEdit hasta tocar el chevron',
         diffStyle: 'Vista de diferencias',
         diffStyleDescription: 'Mostrar diferencias en una sola columna (unified) o lado a lado (split). La vista split solo funciona en web.',
         diffStyleOptions: {

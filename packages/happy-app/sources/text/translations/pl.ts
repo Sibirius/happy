@@ -190,6 +190,8 @@ export const pl: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'Wyświetlaj numery linii w różnicach widoków narzędzi',
         wrapLinesInDiffs: 'Zawijanie linii w różnicach',
         wrapLinesInDiffsDescription: 'Zawijaj długie linie zamiast przewijania poziomego w widokach różnic',
+        collapseEditDiffsByDefault: 'Domyślnie zwijaj różnice edycji',
+        collapseEditDiffsByDefaultDescription: 'Ukrywaj treść różnic Edit/Write/MultiEdit do momentu dotknięcia strzałki',
         diffStyle: 'Widok różnic',
         diffStyleDescription: 'Pokazuj różnice w jednej kolumnie (unified) lub obok siebie (split). Widok split działa tylko w przeglądarce.',
         diffStyleOptions: {

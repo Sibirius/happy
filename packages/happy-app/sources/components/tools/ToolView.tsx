@@ -15,6 +15,7 @@ import { PermissionFooter } from './PermissionFooter';
 import { parseToolUseError } from '@/utils/toolErrorParser';
 import { formatMCPTitle } from './views/MCPToolView';
 import { t } from '@/text';
+import { useSetting } from '@/sync/storage';
 
 interface ToolViewProps {
     metadata: Metadata | null;
@@ -34,6 +35,10 @@ export const ToolView = React.memo<ToolViewProps>((props) => {
     const fileEditTools = ['Edit', 'MultiEdit', 'Write'];
     const isFileEditTool = fileEditTools.includes(tool.name);
     const filePath = isFileEditTool && typeof tool.input?.file_path === 'string' ? tool.input.file_path : null;
+
+    // Collapsible body for file-edit diff tools. Initial state from setting; per-message tap toggles.
+    const collapseEditDiffsByDefault = useSetting('collapseEditDiffsByDefault');
+    const [collapsed, setCollapsed] = React.useState(isFileEditTool && collapseEditDiffsByDefault);
 
     // Create default onPress handler for navigation
     const handlePress = React.useCallback(() => {
@@ -163,56 +168,60 @@ export const ToolView = React.memo<ToolViewProps>((props) => {
         }
     }
 
-    return (
-        <View style={styles.container}>
-            {isPressable ? (
-                <TouchableOpacity style={styles.header} onPress={handlePress} activeOpacity={0.8}>
-                    <View style={styles.headerLeft}>
-                        <View style={styles.iconContainer}>
-                            {icon}
-                        </View>
-                        <View style={styles.titleContainer}>
-                            <Text style={styles.toolName} numberOfLines={1}>{toolTitle}{status ? <Text style={styles.status}>{` ${status}`}</Text> : null}</Text>
-                            {description && (
-                                <Text style={styles.toolDescription} numberOfLines={1}>
-                                    {description}
-                                </Text>
-                            )}
-                        </View>
-                        {tool.state === 'running' && (
-                            <View style={styles.elapsedContainer}>
-                                <ElapsedView from={tool.createdAt} />
-                            </View>
-                        )}
-                        {statusIcon}
-                    </View>
-                </TouchableOpacity>
-            ) : (
-                <View style={styles.header}>
-                    <View style={styles.headerLeft}>
-                        <View style={styles.iconContainer}>
-                            {icon}
-                        </View>
-                        <View style={styles.titleContainer}>
-                            <Text style={styles.toolName} numberOfLines={1}>{toolTitle}{status ? <Text style={styles.status}>{` ${status}`}</Text> : null}</Text>
-                            {description && (
-                                <Text style={styles.toolDescription} numberOfLines={1}>
-                                    {description}
-                                </Text>
-                            )}
-                        </View>
-                        {tool.state === 'running' && (
-                            <View style={styles.elapsedContainer}>
-                                <ElapsedView from={tool.createdAt} />
-                            </View>
-                        )}
-                        {statusIcon}
-                    </View>
+    const headerInner = (
+        <>
+            <View style={styles.iconContainer}>
+                {icon}
+            </View>
+            <View style={styles.titleContainer}>
+                <Text style={styles.toolName} numberOfLines={1}>{toolTitle}{status ? <Text style={styles.status}>{` ${status}`}</Text> : null}</Text>
+                {description && (
+                    <Text style={styles.toolDescription} numberOfLines={1}>
+                        {description}
+                    </Text>
+                )}
+            </View>
+            {tool.state === 'running' && (
+                <View style={styles.elapsedContainer}>
+                    <ElapsedView from={tool.createdAt} />
                 </View>
             )}
+            {statusIcon}
+        </>
+    );
+
+    const showCollapseToggle = isFileEditTool && !minimal;
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.header}>
+                {isPressable ? (
+                    <TouchableOpacity style={styles.headerLeft} onPress={handlePress} activeOpacity={0.8}>
+                        {headerInner}
+                    </TouchableOpacity>
+                ) : (
+                    <View style={styles.headerLeft}>
+                        {headerInner}
+                    </View>
+                )}
+                {showCollapseToggle && (
+                    <TouchableOpacity
+                        onPress={() => setCollapsed(c => !c)}
+                        hitSlop={8}
+                        style={styles.collapseButton}
+                        activeOpacity={0.6}
+                    >
+                        <Ionicons
+                            name={collapsed ? 'chevron-down' : 'chevron-up'}
+                            size={20}
+                            color={theme.colors.textSecondary}
+                        />
+                    </TouchableOpacity>
+                )}
+            </View>
 
             {/* Content area - either custom children or tool-specific view */}
-            {(() => {
+            {!collapsed && (() => {
                 // Check if minimal first - minimal tools don't show content
                 if (minimal) {
                     return null;
@@ -311,6 +320,11 @@ const styles = StyleSheet.create((theme) => ({
     },
     elapsedContainer: {
         marginLeft: 8,
+    },
+    collapseButton: {
+        paddingLeft: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     elapsedText: {
         fontSize: 13,

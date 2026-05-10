@@ -171,6 +171,8 @@ export const it: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'Mostra i numeri di riga nei diff delle viste strumenti',
         wrapLinesInDiffs: 'A capo nelle differenze',
         wrapLinesInDiffsDescription: 'A capo delle righe lunghe invece dello scorrimento orizzontale nelle viste diff',
+        collapseEditDiffsByDefault: 'Comprimi diff di modifica per default',
+        collapseEditDiffsByDefaultDescription: 'Nascondi i corpi dei diff Edit/Write/MultiEdit finché non tocchi il chevron',
         diffStyle: 'Vista diff',
         diffStyleDescription: 'Mostra le differenze in una sola colonna (unified) o affiancate (split). La vista split è disponibile solo sul web.',
         diffStyleOptions: {

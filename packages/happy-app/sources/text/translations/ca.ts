@@ -173,6 +173,8 @@ export const ca: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'Mostra els números de línia a les diferències de vistes d\'eines',
         wrapLinesInDiffs: 'Ajusta les línies a les diferències',
         wrapLinesInDiffsDescription: 'Ajusta les línies llargues en lloc de desplaçament horitzontal a les vistes de diferències',
+        collapseEditDiffsByDefault: 'Replega les diferències d\'edició per defecte',
+        collapseEditDiffsByDefaultDescription: 'Amaga els cossos de diferències Edit/Write/MultiEdit fins que toques el galó',
         diffStyle: 'Vista de diferències',
         diffStyleDescription: 'Mostra les diferències en una sola columna (unified) o una al costat de l\'altra (split). La vista split només funciona al web.',
         diffStyleOptions: {

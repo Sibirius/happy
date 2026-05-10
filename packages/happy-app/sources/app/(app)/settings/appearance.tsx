@@ -27,6 +27,7 @@ export default function AppearanceSettingsScreen() {
     const [showLineNumbers, setShowLineNumbers] = useSettingMutable('showLineNumbers');
     const [showLineNumbersInToolViews, setShowLineNumbersInToolViews] = useSettingMutable('showLineNumbersInToolViews');
     const [wrapLinesInDiffs, setWrapLinesInDiffs] = useSettingMutable('wrapLinesInDiffs');
+    const [collapseEditDiffsByDefault, setCollapseEditDiffsByDefault] = useSettingMutable('collapseEditDiffsByDefault');
     const [diffStyle, setDiffStyle] = useSettingMutable('diffStyle');
     const [alwaysShowContextSize, setAlwaysShowContextSize] = useSettingMutable('alwaysShowContextSize');
     const [avatarStyle, setAvatarStyle] = useSettingMutable('avatarStyle');
@@ -173,6 +174,17 @@ export default function AppearanceSettingsScreen() {
                         <Switch
                             value={wrapLinesInDiffs}
                             onValueChange={setWrapLinesInDiffs}
+                        />
+                    }
+                />
+                <Item
+                    title={t('settingsAppearance.collapseEditDiffsByDefault')}
+                    subtitle={t('settingsAppearance.collapseEditDiffsByDefaultDescription')}
+                    icon={<Ionicons name="chevron-down-circle-outline" size={29} color="#5856D6" />}
+                    rightElement={
+                        <Switch
+                            value={collapseEditDiffsByDefault}
+                            onValueChange={setCollapseEditDiffsByDefault}
                         />
                     }
                 />

@@ -174,6 +174,8 @@ export const zhHans: TranslationStructure = {
         showLineNumbersInToolViewsDescription: '在工具视图差异中显示行号',
         wrapLinesInDiffs: '在差异中换行',
         wrapLinesInDiffsDescription: '在差异视图中换行显示长行而不是水平滚动',
+        collapseEditDiffsByDefault: '默认折叠编辑差异',
+        collapseEditDiffsByDefaultDescription: '在点击箭头之前隐藏 Edit/Write/MultiEdit 差异正文',
         diffStyle: '差异视图',
         diffStyleDescription: '以单列（unified）或并排（split）显示差异。split 视图仅在 Web 上可用。',
         diffStyleOptions: {

@@ -187,6 +187,8 @@ export const en: TranslationStructure = {
         showLineNumbersInToolViewsDescription: 'Display line numbers in tool view diffs',
         wrapLinesInDiffs: 'Wrap Lines in Diffs',
         wrapLinesInDiffsDescription: 'Wrap long lines instead of horizontal scrolling in diff views',
+        collapseEditDiffsByDefault: 'Collapse Edit Diffs by Default',
+        collapseEditDiffsByDefaultDescription: 'Hide Edit/Write/MultiEdit diff bodies until you tap the chevron',
         diffStyle: 'Diff View',
         diffStyleDescription: 'Show diffs as a single column (unified) or side-by-side (split). Split view is web-only.',
         diffStyleOptions: {
