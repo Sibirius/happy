@@ -2,12 +2,14 @@ const variant = process.env.APP_ENV || 'development';
 const name = {
     development: "Happy (dev)",
     preview: "Happy (preview)",
-    production: "Happy"
+    production: "Happy",
+    personal: "Happy (mine)"
 }[variant];
 const bundleId = {
     development: "com.slopus.happy.dev",
     preview: "com.slopus.happy.preview",
-    production: "com.ex3ndr.happy"
+    production: "com.ex3ndr.happy",
+    personal: "com.muffinlovers.happy"
 }[variant];
 // const stagingElevenLabsAgentId = 'agent_7801k2c0r5hjfraa1kdbytpvs6yt';
 const productionElevenLabsAgentId = 'agent_6701k211syvvegba4kt7m68nxjmw';
@@ -15,11 +17,13 @@ const elevenLabsAgentId = {
     development: productionElevenLabsAgentId,
     preview: productionElevenLabsAgentId,
     production: productionElevenLabsAgentId,
+    personal: productionElevenLabsAgentId,
 }[variant];
 const consoleLoggingDefault = {
     development: true,
     preview: true,
     production: false,
+    personal: true,
 }[variant];
 
 export default {
@@ -173,9 +177,9 @@ export default {
             ]
         ],
         updates: {
-            url: "https://u.expo.dev/4558dd3d-cd5a-47cd-bad9-e591a241cc06",
+            url: "https://u.expo.dev/aadf7420-3d01-49ae-87b4-065ee2759b00",
             requestHeaders: {
-                "expo-channel-name": "production"
+                "expo-channel-name": variant === 'personal' ? 'personal' : 'production'
             }
         },
         experiments: {
@@ -186,7 +190,7 @@ export default {
                 root: "./sources/app"
             },
             eas: {
-                projectId: "4558dd3d-cd5a-47cd-bad9-e591a241cc06"
+                projectId: "aadf7420-3d01-49ae-87b4-065ee2759b00"
             },
             app: {
                 postHogKey: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
@@ -197,6 +201,6 @@ export default {
                 consoleLoggingDefault,
             }
         },
-        owner: "bulkacorp"
+        owner: "sibirius"
     }
 };
