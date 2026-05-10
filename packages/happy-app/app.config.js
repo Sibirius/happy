@@ -174,7 +174,11 @@ export default {
                         }
                     }
                 }
-            ]
+            ],
+            ...(variant === 'personal' ? [[
+                "expo-build-properties",
+                { android: { ndk: { abiFilters: ["arm64-v8a"] } } }
+            ]] : [])
         ],
         updates: {
             url: "https://u.expo.dev/aadf7420-3d01-49ae-87b4-065ee2759b00",

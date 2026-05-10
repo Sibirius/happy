@@ -1,0 +1,9 @@
+# Workspaces not used by happy-app's mobile build.
+# Keeping these out of the EAS upload shrinks both archive size
+# and the INSTALL_DEPENDENCIES phase. happy-app's only workspace
+# dep is @slopus/happy-wire (see grep `@slopus/` in packages/happy-app/).
+packages/happy-server
+packages/happy-cli
+packages/happy-agent
+packages/happy-app-logs
+packages/codium
