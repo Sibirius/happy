@@ -18,7 +18,7 @@
     "release:ota:preview": "pnpm ota",
     "release:ota:release": "pnpm ota:production",
     "prebuild": "rm -rf android ios && expo prebuild",
-    "ota": "APP_ENV=personal NODE_ENV=preview tsx sources/scripts/parseChangelog.ts && pnpm typecheck && eas update --branch personal --environment preview",
+    "ota": "APP_ENV=personal NODE_ENV=preview tsx sources/scripts/parseChangelog.ts && pnpm typecheck && eas update --branch personal --environment preview --message \"$(git log -1 --pretty=%s)\"",
     "ota:production": "npx eas-cli@latest workflow:run ota.yaml",
     "typecheck": "tsc --noEmit",
     "postinstall": "patch-package && setup-skia-web public",
