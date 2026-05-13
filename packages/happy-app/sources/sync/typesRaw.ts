@@ -534,6 +534,48 @@ export type NormalizedMessage = ({
     claudeUuid?: string,
 };
 
+/**
+ * Claude Code wraps system-injected user messages (slash-command expansions,
+ * background-task notifications, system reminders, local-command caveats) in
+ * XML tags meant for the model, not the user.
+ *
+ * Returns:
+ *   - string    → use as displayText, render in place of raw text
+ *   - HIDE      → message is purely model-directed; caller should drop it
+ *   - undefined → not a wrapper message; render normally
+ *
+ * Strategy:
+ *  1. If the message doesn't start with '<', it's normal text — bail.
+ *  2. Strip complete XML blocks (<tag>…</tag>). If text remains outside
+ *     those blocks, that's the user-visible content (e.g. the actual command
+ *     output after a <local-command-caveat> wrapper).
+ *  3. If nothing remains, the message is entirely XML. Extract:
+ *     a. <command-name> → the slash command (e.g. "/retro")
+ *     b. <summary> → human-readable summary (e.g. task notification)
+ *     c. Otherwise → HIDE (it's a pure model directive, e.g. a stray
+ *        <local-command-caveat> or <system-reminder> with nothing else).
+ */
+const HIDE_MESSAGE: unique symbol = Symbol('hide');
+
+function extractDisplayText(trimmed: string): string | typeof HIDE_MESSAGE | undefined {
+    if (!trimmed.startsWith('<')) return undefined;
+
+    // Strip complete XML blocks; text outside them is user-visible content
+    const withoutBlocks = trimmed.replace(/<(\w[\w-]*)>[\s\S]*?<\/\1>/g, '').trim();
+    if (withoutBlocks) return withoutBlocks;
+
+    // Entire message is XML — extract the most meaningful part
+    const cmdMatch = trimmed.match(/<command-name>\s*(\/\S+)\s*<\/command-name>/);
+    if (cmdMatch) return cmdMatch[1];
+
+    const summaryMatch = trimmed.match(/<summary>([\s\S]*?)<\/summary>/);
+    if (summaryMatch) return summaryMatch[1].trim();
+
+    // Pure model-directed wrapper (system-reminder, local-command-caveat with
+    // nothing else). Hide it — matches existing isMeta/isCompactSummary precedent.
+    return HIDE_MESSAGE;
+}
+
 function normalizeSessionEnvelope(
     envelope: SessionEnvelope,
     localId: string | null,
@@ -596,6 +638,16 @@ function normalizeSessionEnvelope(
 
     if (envelope.ev.t === 'text') {
         if (envelope.role === 'user') {
+            const text = envelope.ev.text;
+            const trimmed = text.trim();
+            // Claude Code wraps system-injected messages (slash-command
+            // expansions, background-task notifications, system reminders)
+            // in XML tags meant for the model, not the user. Detect
+            // "entirely XML" messages and extract clean display text.
+            const displayText = extractDisplayText(trimmed);
+            if (displayText === HIDE_MESSAGE) {
+                return null;
+            }
             return {
                 id: messageId,
                 localId,
@@ -604,9 +656,9 @@ function normalizeSessionEnvelope(
                 isSidechain: false,
                 content: {
                     type: 'text',
-                    text: envelope.ev.text
+                    text,
                 },
-                meta,
+                meta: displayText ? { ...meta, displayText } : meta,
                 claudeUuid: envelope.claudeUuid,
             } satisfies NormalizedMessage;
         }
@@ -861,6 +913,11 @@ export function normalizeRawMessage(id: string, localId: string | null, createdA
 
                 // Handle regular user messages
                 if (raw.content.data.message && typeof raw.content.data.message.content === 'string') {
+                    const text = raw.content.data.message.content;
+                    const displayText = extractDisplayText(text.trim());
+                    if (displayText === HIDE_MESSAGE) {
+                        return null;
+                    }
                     return {
                         id,
                         localId,
@@ -869,8 +926,9 @@ export function normalizeRawMessage(id: string, localId: string | null, createdA
                         isSidechain: false,
                         content: {
                             type: 'text',
-                            text: raw.content.data.message.content
+                            text,
                         },
+                        ...(displayText ? { meta: { displayText } } : {}),
                         claudeUuid: raw.content.data.uuid,
                     };
                 }
